@@ -13,4 +13,5 @@ public interface IDireccionDAO {
     Direccion actualizarDireccion(Direccion direccion);
     void eliminarDireccion(Direccion direccion);
 
+    List<Object[]> obtenerDatosDistancia();
 }

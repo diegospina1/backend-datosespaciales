@@ -3,7 +3,6 @@ package com.admondb.estudiantesregistro.dao.direccionDAO;
 import com.admondb.estudiantesregistro.dao.repository.DireccionRepository;
 import com.admondb.estudiantesregistro.model.CategoriaDireccion;
 import com.admondb.estudiantesregistro.model.Direccion;
-import com.admondb.estudiantesregistro.model.Estudiante;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -45,5 +44,10 @@ public class DireccionDAO implements IDireccionDAO{
     @Override
     public void eliminarDireccion(Direccion direccion) {
         repository.eliminarDireccion(direccion);
+    }
+
+    @Override
+    public List<Object[]> obtenerDatosDistancia(){
+        return repository.obtenerEstudiantesDistancia();
     }
 }

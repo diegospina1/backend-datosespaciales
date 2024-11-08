@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface DireccionRepository extends JpaRepository<Direccion, Long> {
 
     @Query("select d from Direccion d where d.estudiante.id = :#{#id} and d.categoria = :#{#trabajo}")
@@ -20,4 +22,13 @@ public interface DireccionRepository extends JpaRepository<Direccion, Long> {
     @Transactional
     @Query("DELETE FROM Direccion d WHERE d = :direccion")
     void eliminarDireccion(Direccion direccion);
+
+    @Query("select e.cedula, e.nombres, e.apellidos, ST_Distance_Sphere(ur.coordenadas, ut.coordenadas) as distancia " +
+            "FROM Estudiante e " +
+            "JOIN Direccion dr on e = dr.estudiante and dr.categoria = 'RESIDENCIA'" +
+            "JOIN Direccion dt on e = dt.estudiante and dt.categoria = 'TRABAJO'" +
+            "JOIN Ubicacion ur on ur = dr.ubicacion " +
+            "JOIN Ubicacion ut on ut = dt.ubicacion " +
+            "ORDER BY distancia asc")
+    List<Object[]> obtenerEstudiantesDistancia();
 }

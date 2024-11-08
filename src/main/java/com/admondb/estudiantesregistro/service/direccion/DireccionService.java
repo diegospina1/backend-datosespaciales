@@ -4,6 +4,7 @@ import com.admondb.estudiantesregistro.dao.direccionDAO.IDireccionDAO;
 import com.admondb.estudiantesregistro.dto.ActualizarDatosDTO;
 import com.admondb.estudiantesregistro.dto.DatosDTO;
 import com.admondb.estudiantesregistro.dto.UbicacionDTO;
+import com.admondb.estudiantesregistro.dto.estudianteDTO.EstudianteDistanciaDTO;
 import com.admondb.estudiantesregistro.model.CategoriaDireccion;
 import com.admondb.estudiantesregistro.model.Direccion;
 import com.admondb.estudiantesregistro.model.Estudiante;
@@ -104,5 +105,14 @@ public class DireccionService implements IDireccionService{
         UbicacionDTO residenciaDTO = ubicacionMapper.toUbicacionDTO(residencia);
         UbicacionDTO trabajoDTO = ubicacionMapper.toUbicacionDTO(trabajo);
         return new DatosDTO(estudianteMapper.toEstudianteDTO(estudiante), residenciaDTO, trabajoDTO);
+    }
+
+    @Override
+    public List<EstudianteDistanciaDTO> obtenerEstudiantesConDistancia() {
+        List<Object[]> resultados = dao.obtenerDatosDistancia();
+        return resultados.stream()
+                .map(o -> new EstudianteDistanciaDTO(String.valueOf(o[0]),
+                        String.valueOf(o[1]), String.valueOf(o[2]), (Double) o[3]))
+                .toList();
     }
 }
